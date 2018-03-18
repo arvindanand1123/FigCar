@@ -76,7 +76,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Tag for the {@link Log}.
      */
-    private static final String TAG = "Camera2BasicFragment";
+    private static final String TAG = "FigCarFragment";
 
     /**
      * Camera state: Showing camera preview.

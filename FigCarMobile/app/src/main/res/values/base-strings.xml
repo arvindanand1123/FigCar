@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <resources>
-    <string name="app_name">Camera2Basic</string>
+    <string name="app_name">FigCar</string>
     <string name="intro_message">
         <![CDATA[
         
             
-            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
-            you can display camera preview and take pictures.
+            This app is v.1 of FigCar. It has yet to have the Neural Network to be implemented.
             
         
         ]]>
