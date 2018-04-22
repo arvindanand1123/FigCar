@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import tensorflow as tf
@@ -10,16 +10,17 @@ import keras
 import os
 
 
-# In[ ]:
+# In[3]:
 
 
 from sklearn.datasets import load_files       
 from keras.utils import np_utils
 import numpy as np
+import h5py 
 from glob import glob
 
 
-# In[ ]:
+# In[4]:
 
 
 a = tf.truncated_normal([16,128,128,3])
@@ -28,16 +29,17 @@ sess.run(tf.initialize_all_variables())
 sess.run(tf.shape(a))
 
 
-# In[ ]:
+# In[5]:
 
 
 b=tf.reshape(a,[16,49152])
 sess.run(tf.shape(b))
 
 
-# In[ ]:
+# In[21]:
 
 
+import scipy.io as spio
 def group_images(path):
     """Groups and renames images per car model in appropriate folders specified by path"""
     
@@ -79,7 +81,7 @@ def group_images(path):
         except:
             pass
     print("Train and Validation created successfully")
-        
+
 file_location = input("Location of Data ")
 group_images(file_location)
 
