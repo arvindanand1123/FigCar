@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tint="?attr/colorAccent"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryDark"
+            app:popupTheme="@style/PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_splash_screen" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:adjustViewBounds="true"
+        android:rotation="90"
+        app:layout_anchor="@+id/imageView"
+        app:layout_anchorGravity="left|top"
+        app:srcCompat="?attr/actionBarItemBackground" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="If you know this car already, was this car inaccurate?"
+        app:layout_anchor="@+id/include2"
+        app:layout_anchorGravity="bottom|center" />
+
+    <TextView
+        android:id="@+id/responseVar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="@dimen/standard_50"
+        android:layout_marginTop="500dp"
+        android:text="The server is offline." />
+
+    <Button
+        android:id="@+id/Send"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Send"
+        app:layout_anchor="@+id/responseVar"
+        app:layout_anchorGravity="right|center" />
+
+</android.support.design.widget.CoordinatorLayout>
