@@ -4,4 +4,11 @@
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_splash_screeen">SplashScreeen</string>
+    <string name="title_activity_gallery_screen">GalleryScreen</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">FigCar v1.0</string>
+    <string name="checkbox">CheckBox</string>
+    <string name="uploaded_to_instance">Uploaded to Instance</string>
 </resources>
