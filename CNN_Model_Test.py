@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[33]:
-
-
 import tensorflow as tf
 import scipy.io
 import keras
@@ -21,26 +15,19 @@ from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D, Activatio
 from keras.layers import Dropout, Flatten, Dense
 from keras.models import Sequential
 
-
-# In[35]:
-
-
 def load_dataset(path):
     data = load_files(path)
     car_files = np.array(data['filenames'])
     car_targets = np_utils.to_categorical(np.array(data['target']), 189)
     return car_files, car_targets
-file_location = '/home/arvind_anand1123/Workspace/FigCar/Input'
+file_location = '/home/arvind_anand1123/Workspace/FigCar/Input/'
 test_files, test_targets = load_dataset(file_location)
 print('There are %d test car images.'% len(test_files))
 
 
-# In[36]:
-
-
 def path_to_tensor(img_path):     
     # loads RGB image as PIL.Image.Image type     
-    img = image.load_img(img_path, target_size=(224, 224))
+    img = image.load_img(img_path, target_size=(124, 124))
     img = img.convert('1')
     # convert PIL.Image.Image type to 3D tensor with shape (224, 224, 3)     
     x = image.img_to_array(img)     
@@ -50,34 +37,31 @@ def paths_to_tensor(img_paths):
     list_of_tensors = [path_to_tensor(img_path) for img_path in tqdm(img_paths)]     
     return np.vstack(list_of_tensors)
 
-
-# In[37]:
-
-
 test_tensor = paths_to_tensor(test_files).astype('float32')/255
-
-
-# In[38]:
 
 
 def CNN():
     from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D, Activation
     from keras.layers import Dropout, Flatten, Dense
     from keras.models import Sequential
+    from keras.backend import clear_session
 
+    clear_session()
+    
     model = Sequential()
-    model.add(Conv2D(filters=32, kernel_size=(9,9), input_shape=(224, 224, 1)))
-    model.add(Activation("relu"))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2), padding='same'))
-    model.add(Conv2D(filters=64, kernel_size=(7,7)))
-    model.add(Activation("relu"))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(1,1), padding='same'))
-    model.add(GlobalAveragePooling2D())
-    model.add(Dropout(0.1))
-    model.add(Dense(300))
-    model.add(Activation("relu"))
-    model.add(Dense(189))
-    model.add(Activation("softmax"))
+    model.add(Conv2D(filters=16, kernel_size=2, padding='same', activation='relu',
+                            input_shape=(124, 124, 1)))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(Conv2D(filters=32, kernel_size=2, padding='same', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(Conv2D(filters=64, kernel_size=2, padding='same', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(Dropout(0.3))
+    model.add(Flatten())
+    model.add(Dense(500, activation='relu'))
+    model.add(Dropout(0.4))
+    model.add(Dense(189, activation='softmax'))
+
     model.summary()
 
     model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -96,44 +80,5 @@ def CNN():
     # report test accuracy
     test_accuracy = 100*np.sum(np.array(car_model_predictions)==np.argmax(test_targets, axis=1))/len(car_model_predictions)
     accur = ('Test accuracy: %.4f%%' % test_accuracy)
-    return var + '\n' + accur
-def VGG():
-    from keras import applications
-    from keras.preprocessing.image import ImageDataGenerator
-    from keras import optimizers
-    from keras.models import Sequential, Model 
-    from keras.layers import Dropout, Flatten, Dense, GlobalAveragePooling2D
-    from keras import backend as k 
-    from keras.callbacks import ModelCheckpoint, LearningRateScheduler, TensorBoard, EarlyStopping
+    return var + '\n' + accur    
     
-    model = applications.VGG19(weights = "imagenet", include_top=False, input_shape = (224, 224, 3))
-    
-    #Freeze layers
-    for layer in model.layers[:5]:
-        layer.trainable = False
-
-    #Custom layers
-    x = model.output
-    x = Flatten()(x)
-    x = Dense(1024, activation="relu")(x)
-    x = Dropout(0.5)(x)
-    x = Dense(1024, activation="relu")(x)
-    predictions = Dense(189, activation="softmax")(x)
-
-    model_final = Model(input = model.input, output = predictions)
-
-    model_final.compile(loss = "categorical_crossentropy", optimizer = optimizers.SGD(lr=0.0001, momentum=0.9), metrics=["accuracy"])
-    
-    model_final.load_weights('home/arvind_anand1123/Workspace/FigCar/saved_models/vgg16_1.h5')
-    
-    test_datagen = ImageDataGenerator(
-    rescale = 1./255,
-    horizontal_flip = True,
-    fill_mode = "nearest",
-    zoom_range = 0.3,
-    width_shift_range = 0.3,
-    height_shift_range=0.3,
-    rotation_range=30)
-    
-    
-
